@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVERMORE - 长久的快乐，可负担的价格</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: #fff;
+            color: #000;
+            overflow-x: hidden;
+        }
+
+        /* 彩色装饰条 */
+        .color-bar {
+            height: 4px;
+            background: linear-gradient(to right, 
+                #0066FF 0%, #0066FF 25%,
+                #FFD700 25%, #FFD700 50%,
+                #FF3366 50%, #FF3366 75%,
+                #00CC99 75%, #00CC99 100%
+            );
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 4px;
+            width: 100%;
+            background: #fff;
+            z-index: 1000;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e5;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-symbol {
+            font-size: 48px;
+            font-weight: 900;
+            color: #000;
+            line-height: 1;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 900;
+            color: #0000CD;
+            letter-spacing: 2px;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 45px;
+            list-style: none;
+        }
+
+        .nav-center a {
+            color: #000;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-center a:hover {
+            color: #0000CD;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .user-icon,
+        .lang-select {
+            color: #000;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .search-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        /* 英雄区域 */
+        .hero {
+            margin-top: 94px;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            background: #f8f8f8;
+            padding: 80px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 40px;
+            color: #000;
+        }
+
+        .hero-text h1 .company-name {
+            color: #0000CD;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            border: 2px solid #000;
+        }
+
+        .cta-button:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .hero-image-container {
+            position: relative;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .hero-badge {
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            background: #FF0033;
+            color: #fff;
+            padding: 40px 50px;
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.4;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+            box-shadow: 0 10px 30px rgba(255,0,51,0.4);
+        }
+
+        /* 关于我们区域 - 价值观为主 */
+        .about-section {
+            padding: 100px 60px;
+            background: #fff;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-title {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            color: #000;
+            text-align: center;
+        }
+
+        .values-container {
+            margin-bottom: 60px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .value-item {
+            background: #f8f8f8;
+            padding: 30px;
+            border-left: 4px solid #0000CD;
+        }
+
+        .value-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0000CD;
+            margin-bottom: 12px;
+        }
+
+        .value-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #0000CD 0%, #0066FF 100%);
+            color: #fff;
+            padding: 50px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 60px 0;
+        }
+
+        .highlight-box h3 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box p {
+            font-size: 20px;
+            line-height: 1.6;
+        }
+
+        /* 游戏展示区 */
+        .games-section {
+            padding: 100px 60px;
+            background: #f8f8f8;
+        }
+
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .game-showcase {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border: 2px solid #e5e5e5;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .game-showcase:hover {
+            border-color: #0000CD;
+            box-shadow: 0 10px 30px rgba(0,0,205,0.1);
+            transform: translateY(-5px);
+        }
+
+        .game-image-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+        }
+
+        .game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .game-showcase:hover .game-image {
+            transform: scale(1.05);
+        }
+
+        .game-badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: #FF0033;
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .game-info {
+            padding: 50px;
+        }
+
+        .game-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .game-desc {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .game-platforms {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .platform-tag {
+            padding: 8px 20px;
+            background: #f0f0f0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .preorder-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: #FF0033;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .preorder-button:hover {
+            background: #CC0029;
+        }
+
+        /* 会员俱乐部区域 */
+        .club-section {
+            padding: 100px 60px;
+            background: #FFB3C6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .club-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000'%3E%3Cpath d='M0,0 L500,500 L0,1000 Z' fill='rgba(255,255,255,0.1)'/%3E%3Cpath d='M300,0 L800,500 L300,1000 Z' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
+        .club-header {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto 60px;
+        }
+
+        .club-title {
+            font-size: 52px;
+            font-weight: 800;
+            background: #000;
+            color: #fff;
+            padding: 20px 40px;
+            display: inline-block;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .club-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 20px solid #000;
+            border-bottom: 15px solid transparent;
+        }
+
+        .club-description {
+            font-size: 20px;
+            color: #000;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .community-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 60px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .community-item {
+            text-align: center;
+            padding: 25px;
+            background: #f8f8f8;
+            border-radius: 10px;
+        }
+
+        .community-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .community-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .join-club-btn {
+            display: inline-block;
+            padding: 18px 50px;
+            background: #FF0033;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .join-club-btn:hover {
+            background: #CC0029;
+        }
+
+        /* 页脚 */
+        footer {
+            background: #000;
+            padding: 80px 60px 40px;
+            color: #fff;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo-symbol {
+            font-size: 60px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .footer-logo-text {
+            font-size: 32px;
+            font-weight: 900;
+            color: #0000CD;
+            letter-spacing: 2px;
+        }
+
+        .footer-desc {
+            color: #999;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #333;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .social-links a:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        @media (max-width: 1200px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-badge {
+                bottom: 20px;
+                right: 20px;
+                padding: 30px 40px;
+                font-size: 20px;
+            }
+
+            .values-container {
+                grid-template-columns: 1fr;
+            }
+
+            .community-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .nav-center {
+                display: none;
+            }
+
+            .logo-symbol {
+                font-size: 36px;
+            }
+
+            .logo-text {
+                font-size: 20px;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .games-section,
+            .about-section,
+            .club-section {
+                padding: 60px 20px;
+            }
+
+            .club-title {
+                font-size: 36px;
+            }
+
+            .community-content {
+                padding: 30px 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .regions-list {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 彩色装饰条 -->
+    <div class="color-bar"></div>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo-container">
+            <div class="logo-symbol">𐰤</div>
+            <div class="logo-text">EVERMORE</div>
+        </div>
+        <ul class="nav-center">
+            <li><a href="#games">游戏</a></li>
+            <li><a href="#about">关于我们</a></li>
+            <li><a href="#club">社区</a></li>
+            <li><a href="#support">支持</a></li>
+        </ul>
+        <div class="nav-right">
+            <a href="#" class="user-icon">👤</a>
+            <span class="lang-select">CN</span>
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>
+                    We are
+                    <span class="company-name">EVERMORE</span>
+                </h1>
+                <a href="#games" class="cta-button">探索我们的游戏</a>
+            </div>
+            <div class="hero-image-container">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'%3E%3Cdefs%3E%3ClinearGradient id='hero-bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23001a33'/%3E%3Cstop offset='100%25' style='stop-color:%230066cc'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='600' fill='url(%23hero-bg)'/%3E%3Ctext x='400' y='300' text-anchor='middle' fill='white' font-size='120' font-weight='900' opacity='0.3'%3E𐰤%3C/text%3E%3Cpath d='M400,250 L450,350 L350,350 Z' fill='rgba(255,255,255,0.1)'/%3E%3Ccircle cx='400' cy='300' r='80' fill='none' stroke='rgba(255,255,255,0.2)' stroke-width='2'/%3E%3C/svg%3E" alt="Hero Image" class="hero-image">
+                <div class="hero-badge">
+                    长久的<br>快乐<br>可负担的<br>价格
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 - 价值观 -->
+    <section class="about-section" id="about">
+        <div class="about-content">
+            <h2 class="about-title">关于 EVERMORE</h2>
+            
+            <div class="values-container">
+                <div class="value-item">
+                    <div class="value-title">创新与性价比</div>
+                    <div class="value-text">
+                        EVERMORE 致力于创新、性价比高且重复可玩性强的游戏开发。我们相信，优质的游戏体验不应该成为奢侈品。
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="value-title">长期的快乐</div>
+                    <div class="value-text">
+                        我们的目标是让玩家能够以一瓶到几瓶可乐的价格，买下接下来五年到十年的快乐。每一款游戏都设计为能够提供长期的娱乐价值和深度体验。
+                    </div>
+                </div>
+
+                <div class="value-item">
+                    <div class="value-title">情感连接与持续创作</div>
+                    <div class="value-text">
+                        EVERMORE 致力于与玩家建立长期的情感链接，并坚持持续的内容创作。我们不只是开发游戏，更是在构建一个充满活力和归属感的社区。
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>我们的承诺</h3>
+                <p>以可负担的价格，提供长期的快乐与深度的游戏体验</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 游戏展示区 -->
+    <section class="games-section" id="games">
+        <div class="section-header">
+            <h2 class="section-title">我们的游戏</h2>
+            <p class="section-subtitle">高性价比，长期可玩的精品游戏</p>
+        </div>
+        <div class="game-showcase">
+            <div class="game-image-wrapper">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='500'%3E%3Cdefs%3E%3ClinearGradient id='game-main' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%230a1628'/%3E%3Cstop offset='50%25' style='stop-color:%230066cc'/%3E%3Cstop offset='100%25' style='stop-color:%230a1628'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='500' fill='url(%23game-main)'/%3E%3Ctext x='600' y='250' text-anchor='middle' fill='rgba(255,255,255,0.2)' font-size='150' font-weight='900'%3E𐰤%3C/text%3E%3Ccircle cx='300' cy='250' r='80' fill='rgba(255,255,255,0.1)'/%3E%3Ccircle cx='900' cy='250' r='60' fill='rgba(255,255,255,0.1)'/%3E%3Cpath d='M200,400 Q600,300 1000,400' stroke='rgba(255,255,255,0.2)' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="EVERMORE 主打游戏" class="game-image">
+                <div class="game-badge">现已发售</div>
+            </div>
+            <div class="game-info">
+                <h3 class="game-title">EVERMORE 主打游戏</h3>
+                <p class="game-desc">
+                    一款融合创新玩法与深度策略的游戏，为玩家提供数年的娱乐价值。精心设计的游戏机制确保高重复可玩性，让每一次游玩都有新的发现。以可负担的价格，体验长期的快乐。
+                </p>
+                <div class="game-platforms">
+                    <span class="platform-tag">PC</span>
+                    <span class="platform-tag">主机</span>
+                    <span class="platform-tag">移动端</span>
+                </div>
+                <a href="#" class="preorder-button">立即购买</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 会员俱乐部/社区 -->
+    <section class="club-section" id="club">
+        <div class="club-header">
+            <div class="club-title">加入我们的社区！</div>
+            <p class="club-description">
+                与来自欧洲、日本、中国的玩家一起，建立长期的情感连接
+            </p>
+        </div>
+        <div class="community-content">
+            <div class="community-grid">
+                <div class="community-item">
+                    <div class="community-title">全球社区</div>
+                    <div class="community-desc">连接欧洲、日本、中国三大地区的玩家，分享游戏经验与创意</div>
+                </div>
+                <div class="community-item">
+                    <div class="community-title">持续更新</div>
+                    <div class="community-desc">定期的内容更新和活动，让游戏体验持续新鲜</div>
+                </div>
+                <div class="community-item">
+                    <div class="community-title">玩家互动</div>
+                    <div class="community-desc">参与讨论，影响游戏发展方向，与开发团队直接对话</div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="join-club-btn">立即加入社区</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo-section">
+                <div class="footer-logo-container">
+                    <div class="footer-logo-symbol">𐰤</div>
+                    <div class="footer-logo-text">EVERMORE</div>
+                </div>
+                <p class="footer-desc">
+                    EVERMORE 致力于创造高性价比、长期可玩的游戏。我们相信，优质的游戏体验应该是每个人都能负担得起的。以可乐的价格，换取数年的快乐。
+                </p>
+                <div class="social-links">
+                    <a href="#" title="Discord">D</a>
+                    <a href="#" title="Twitter">T</a>
+                    <a href="#" title="Bilibili">B</a>
+                    <a href="#" title="YouTube">Y</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="footer-title">游戏</h4>
+                <ul class="footer-links">
+                    <li><a href="#">当前游戏</a></li>
+                    <li><a href="#">更新日志</a></li>
+                    <li><a href="#">游戏指南</a></li>
+                    <li><a href="#">常见问题</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">社区</h4>
+                <ul class="footer-links">
+                    <li><a href="#">加入社区</a></li>
+                    <li><a href="#">论坛</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">合作伙伴</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 EVERMORE. All rights reserved. | 长久的快乐，可负担的价格</p>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 滚动时导航栏阴影
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+            }
+        });
+    </script>
+</body>
+</html>
